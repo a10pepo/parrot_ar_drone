@@ -9,5 +9,5 @@ License:
 
 This software is published under the terms of the MIT License:
 
-  http://www.opensource.org/licenses/mit-license.php
+  This software is property of [GFT](www.gft.com)
 
