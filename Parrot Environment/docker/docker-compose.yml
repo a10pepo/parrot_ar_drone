@@ -1,0 +1,11 @@
+version: '3.5'
+services:
+  parrot-sdk-ecosystem:
+    build: ./parrot-sdk/
+    restart: always
+    container_name: parrot-sdk
+    networks:
+      - parrot-sdk-ecosystem-network
+networks:
+  parrot-sdk-ecosystem-network:
+    name : parrot-sdk-ecosystemr-network

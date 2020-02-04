@@ -45,3 +45,11 @@ gnome-session-quit --no-prompt
 #Terminal 2:
 #source ~/code/parrot-groundsdk/./products/olympe/linux/env/shell
 
+
+
+    Start from one terminal:
+    sudo /usr/local/lib/python3.6/site-packages/bluepy/bluepy-helper 0
+    or wherever you have bluepy-helper
+    Type "le on" and you should get this:
+    rsp=$mgmt code=$success
+    Do whatever you need to do from another terminal.
