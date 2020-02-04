@@ -246,7 +246,8 @@ def executepoint(ds_test,locations):
 #    ds_test["rssi_norm"]=MAX-ds_test[2]
     #ds_test["rssi_norm"]=ds_test["rssi_norm"]*1.7   
     #ds_test["rssi_norm"]=(ds_test[2]-MIN)/(MAX-MIN)
-    ds_test["rssi_norm"]=(ds_test[2]-(1/MAX))/((1/MIN)-(1/MAX))
+#    ds_test["rssi_norm"]=(ds_test[2]-(1/MAX))/((1/MIN)-(1/MAX))
+    ds_test["rssi_norm"]=ds_test[2]/100
     # This inversion allows you to use small rssi     
     #ds_test["rssi_norm"]=1-ds_test["rssi_norm"]
     

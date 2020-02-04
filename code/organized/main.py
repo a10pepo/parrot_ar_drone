@@ -10,14 +10,14 @@ Este es un archivo temporal.
 
 import numpy as np
 import pandas as pd
-#import drone 
+import drone 
 import applogger as log
 
 import location
 from  location import beacon
 
 
-#global locations
+global locations
 locations = {}
 
 
@@ -29,13 +29,15 @@ locations[3]=beacon(1,1,"ec:a6:9d:22:1c:1f")
 
 actual = 0
 
-#drone.init()
+drone.init()
 while actual < len(locations)-1:
     
+    ''' 
     tests = {}
     tests[0]=location.unittest(locations,0,0,-41,-79,-92,-84)    
     tests[1]=location.unittest(locations,0.33,0,-77,-77,-90,-92)    
-    '''     
+
+        
     tests[2]=location.unittest(locations,0.66,0,-85,-60,-90,-82)    
     tests[3]=location.unittest(locations,1,0,-87,-35,-91,-86)    
     print(type(tests))    
@@ -55,29 +57,34 @@ while actual < len(locations)-1:
     location.unittest(locations,0.33,1,b1,b2,b3,b4)    
     location.unittest(locations,0.66,1,b1,b2,b3,b4)    
     location.unittest(locations,1,1,b1,b2,b3,b4)    
-   
-        
-    currentpos=location.getposition(locations)
-    if currentpos.x + currentpos.y > 0 :    
-        distance=location.getdistance(currentpos,locations[actual])
-        action=location.getaction(distance)
-        if action == location.FOUND:
-            log.log(log.INFO,"Location %s of id %s Found" % (actual,locations[actual].id))
-            log.log(log.INFO,"Start scan")
-            drone.scan()
-            log.log(log.INFO,"Scan completed")
-            actual=actual+1
-            log.log(log.INFO,"Target Updated")
+    '''   
+    try:    
+        currentpos=location.getposition(locations)
+        if currentpos.x + currentpos.y > 0 :    
+            distance=location.getdistance(currentpos,locations[actual])
+            action=location.getaction(distance)
+            print("ACTION: %s with distance %s,%s" % (action,distance.x,distance.y))
+            if action == location.FOUND:
+                log.log(log.INFO,"Location %s of id %s Found" % (actual,locations[actual].id))
+                log.log(log.INFO,"Start scan")
+                drone.scan()
+                log.log(log.INFO,"Scan completed")
+                actual=actual+1
+                log.log(log.INFO,"Target Updated")
+            else:
+                log.log(log.INFO,"Perform Actions: START")              
+                txt=input('press enter')
+                exit()
+                drone.perform(action,distance)
+                log.log(log.INFO,"Perform Actions: END")
         else:
-            log.log(log.INFO,"Perform Actions: START")
-            drone.perform(action)
-            log.log(log.INFO,"Perform Actions: END")
-    else:
-        log.log(log.ERROR,"Trilateration Fail")
-    
-    '''
+            log.log(log.ERROR,"Trilateration Fail")
+    except:
+        drone.land()
+        exit()
 
-    actual = 10
+
+   # actual = 10
 
 
 

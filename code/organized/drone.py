@@ -11,33 +11,32 @@ import time
 
 import olympe
 from olympe.messages.ardrone3.Piloting import TakeOff, moveBy, Landing
+from olympe.messages.ardrone3.PilotingState import moveToChanged, FlyingStateChanged, PositionChanged, AttitudeChanged
 
 
 
 
 
-def perform(operation):
+def perform(operation,distance):
     for action in operation:
         if action==location.UP:
             log.log(log.INFO,"Action sent: UP")
-            
-            
-            
+  
         if action==location.DOWN:
             log.log(log.INFO,"Action sent: DOWN")
             
         if action==location.LEFT:
             log.log(log.INFO,"Action sent: LEFT")
-            drone(moveBy(0, 2, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
+            drone(moveBy(0, 1*distance.x, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
         if action==location.RIGHT:
             log.log(log.INFO,"Action sent: RIGHT")
-            drone(moveBy(0, -2, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
+            drone(moveBy(0, -1*distance.x, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
         if action==location.FORWARD:
             log.log(log.INFO,"Action sent: FWD")
-            drone(moveBy(2, 0, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
+            drone(moveBy(1*distance.y, 0, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
         if action==location.BACKWARD:
             log.log(log.INFO,"Action sent: BACKWARD")
-            drone(moveBy(-2, 0, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
+            drone(moveBy(-1*distance.y, 0, 0, 0) >> FlyingStateChanged(state="hovering", _timeout=5)).wait()
     return
 
 
@@ -66,5 +65,8 @@ def init():
     
     return
 def end():
+    land()
     drone.disconnection()
-    
+
+def land():
+    drone(Landing()).wait()
